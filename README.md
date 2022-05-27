@@ -12,7 +12,7 @@ Criar uma API REST para gerenciar um estacionamento de carros e motos.
 - NextJS
 - TypeOrm
 - Mysql
-- Swagget
+- Swagger
 
 #### Cadastro de estabelecimento
 
