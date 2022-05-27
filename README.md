@@ -15,7 +15,6 @@ Criar uma API REST para gerenciar um estacionamento de carros e motos.
 - Swagger
 
 #### Cadastro de estabelecimento
-
 Criar um cadastro da empresa com os seguintes campos:
 - Nome;
 - CNPJ;
@@ -27,7 +26,6 @@ Criar um cadastro da empresa com os seguintes campos:
 **Todos** os campos são de preenchimento obrigatório.
 
 #### Cadastro de veículos
-
 Criar um cadastro de veículos com os seguintes campos:
 - Marca;
 - Modelo;
@@ -38,7 +36,6 @@ Criar um cadastro de veículos com os seguintes campos:
 **Todos** os campos são de preenchimento obrigatório.
 
 #### Funcionalidades
-
 - **Estabelecimento:** CRUD;
 - **Veículos:** CRUD;
 - **Controle de entrada e saída de veículos.**
