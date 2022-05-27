@@ -1,4 +1,4 @@
-!(Dr Consulta)[https://drconsulta.com/_next/image?url=%2Fimages%2FLogo-Dr-Consulta-Branco.png&w=128&q=100 "DrConsulta"]
+![Dr Consulta](https://drconsulta.com/_next/image?url=%2Fimages%2FLogo-Dr-Consulta-Branco.png&w=128&q=100 "DrConsulta")
 
 ### DrConsulta
 *"Salvar vidas e cuidar das pessoas porque elas não podem esperar nas filas da saúde."*
