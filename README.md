@@ -8,13 +8,13 @@ O teste é destinado para vaga de Desenvolvedor Back-end entendo como o candidat
 ## Project - API
 Criar uma API REST para gerenciar um estacionamento de carros e motos.
 
-# Stack tecnológica
+#### Stack tecnológica
 - NextJS
 - TypeOrm
 - Mysql
 - Swagget
 
-# Cadastro de estabelecimento
+#### Cadastro de estabelecimento
 
 Criar um cadastro da empresa com os seguintes campos:
 - Nome;
@@ -26,7 +26,7 @@ Criar um cadastro da empresa com os seguintes campos:
 
 **Todos** os campos são de preenchimento obrigatório.
 
-# Cadastro de veículos
+#### Cadastro de veículos
 
 Criar um cadastro de veículos com os seguintes campos:
 - Marca;
@@ -37,13 +37,13 @@ Criar um cadastro de veículos com os seguintes campos:
 
 **Todos** os campos são de preenchimento obrigatório.
 
-# Funcionalidades
+#### Funcionalidades
 
 - **Estabelecimento:** CRUD;
 - **Veículos:** CRUD;
 - **Controle de entrada e saída de veículos.**
 
-# Requisitos
+#### Requisitos
 - Controle JWT via Handshake
 - Modelagem de dados;
 - O retorno deverá ser em formato JSON;
@@ -51,7 +51,7 @@ Criar um cadastro de veículos com os seguintes campos:
 - A persistência dos dados deverá ser em banco *relacional MYSQL*
 - Criar README do projeto descrevendo as tecnologias utilizadas, chamadas dos serviços e configurações necessário para executar a aplicação.
    
-# Ganha mais pontos
+#### Ganha mais pontos
 - Sumário da quantidade de entrada e saída;
 - Sumário da quantidade de entrada e saída de veículos por hora;
 - Criação relatórios para visão ao dono do estabelecimento;
