@@ -54,6 +54,13 @@ Criar um cadastro de veículos com os seguintes campos:
 - Criação relatórios para visão ao dono do estabelecimento;
 - Desenvolver utilizando TDD;
 
+## DevOps (Se for solicitado pelo recrutador)
+Efetuar deploy da nossa API no ambiente do Google Cloud Platform utilizando os serviços
+
+#### Serviços do GCP
+- Container Registry (Subir a imagem docker)
+- Cloud Run
+
 ## Submissão
 Crie um fork do teste para acompanharmos o seu desenvolvimento através dos seus commits.
 
