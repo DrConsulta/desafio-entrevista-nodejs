@@ -22,7 +22,6 @@ Criar um cadastro da empresa com os seguintes campos:
 - Telefone;
 - Quantidade de vagas para motos;
 - Quantidade de vagas para carros.
-
 **Todos** os campos são de preenchimento obrigatório.
 
 #### Cadastro de veículos
@@ -32,7 +31,6 @@ Criar um cadastro de veículos com os seguintes campos:
 - Cor;
 - Placa;
 - Tipo.
-
 **Todos** os campos são de preenchimento obrigatório.
 
 #### Funcionalidades
