@@ -10,7 +10,7 @@ O teste é destinado para vaga de Desenvolvedor Back-end entendo como o candidat
 Criar uma API REST para gerenciar um estacionamento de carros e motos.
 
 #### Stack tecnológica
-- NextJS
+- NestJS
 - TypeOrm
 - Mysql
 - Swagger
