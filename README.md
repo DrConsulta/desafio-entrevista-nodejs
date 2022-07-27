@@ -55,7 +55,7 @@ Criar um cadastro de veículos com os seguintes campos:
 - Criação relatórios para visão ao dono do estabelecimento;
 - Desenvolver utilizando TDD;
 
-## DevOps (Se for solicitado pelo recrutador)
+## DevOps (Diferencial)
 Efetuar deploy da nossa API no ambiente do Google Cloud Platform utilizando os serviços
 
 #### Serviços do GCP
