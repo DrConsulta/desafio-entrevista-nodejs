@@ -1,0 +1,48 @@
+# Checklist Buddy by Mibex Software https://www.mibexsoftware.com/
+
+# To create a new task, use '+task+' followed by the task description.
+# To create a reminder (a non-blocking comment), use '+comment+' followed by the comment text
+
+# To filter when a task is applied, prepend the task/comment/title with one or more of the following filters:
+# '--source'        - the source branch pattners
+# '--source-except' - all pull requests except those matching this pattern 
+# '--target'        - the target/destination branch patterns
+# '--files'         - diff file pattern, similar to .gitignore
+
+# When more than one task has the same filter settings, these are grouped as a checklist.
+# Note: entries with the same filter settings will be grouped together, regardless of position in file 
+
+# To name a checklist, create a line entry with the desired filter settings and +title+ Your Checklist Title
+
+# Checklist para merges na develop
+--source develop +title+ Code Review - Design da PR
+--source develop +task+ A PR contém somente os arquivos que representam a entrega? _(Confira em files changed na PR)_
+--source develop +task+ A branch de origem e os commits estão no padrão da [nossa documentação](http://wiki.drconsulta.com/pt-br/Playbook/Git/fundamentos-de-git)?
+--source develop +title+ Code Review - Code Style
+--source develop +task+ A implementação está em português?
+--source develop +task+ Os arquivos, classes, funções e variáveis seguem o nosso estilo definido [em playbook](http://wiki.drconsulta.com/pt-br/Playbook/PadroesDesenvolvimento/FrontEnd/PadroesEstruturais)? (camelCase, sufixos e etc)
+--source develop +task+ O nome dos arquivos, classes, funções e variáveis estão claros (segundo o clean code)[https://gpcoder.gitbook.io/clean-code/the-key-principles-of-clean-code/meaningful-names]?
+--source develop +task+ As [premissas de funções do Clean Code](https://gpcoder.gitbook.io/clean-code/the-key-principles-of-clean-code/functions) estão de acordo? (Single Responsability, DRY, Fewer arguments)
+
+
+# Checklist para merges na homolog
+--source homolog +title+ Code Review - Design da PR
+--source homolog +task+ A PR contém somente os arquivos que representam a entrega? _(Confira em files changed na PR)_
+--source homolog +task+ A branch de origem e os commits estão no padrão da [nossa documentação](http://wiki.drconsulta.com/pt-br/Playbook/Git/fundamentos-de-git)?
+--source homolog +task+ A descrição da PR segue [nossa documentação](http://wiki.drconsulta.com/pt-br/Playbook/Git/Padroes-de-Pull-Requests)? **(Lembre que aqui é aonde colocamos variaveis de ambientes, script de banco, descrição de negócio e etc)**
+--source homolog +task+ Essa PR está alinhada com o grupo do slack de deploy? _#tech-engineering-deploy-alinhamento_
+--source homolog +title+ Code Review - Code Style
+--source homolog +task+ A implementação está em português?
+--source homolog +task+ Os arquivos, classes, funções e variáveis seguem o nosso estilo definido [em playbook](http://wiki.drconsulta.com/pt-br/Playbook/PadroesDesenvolvimento/FrontEnd/PadroesEstruturais)? (camelCase, sufixos e etc)
+--source homolog +task+ O nome dos arquivos, classes, funções e variáveis estão claros (segundo o clean code)[https://gpcoder.gitbook.io/clean-code/the-key-principles-of-clean-code/meaningful-names]?
+--source homolog +task+ As [premissas de funções do Clean Code](https://gpcoder.gitbook.io/clean-code/the-key-principles-of-clean-code/functions) estão de acordo? (Single Responsability, DRY, Fewer arguments)
+
+# Checklist para merges na master
+--source master +title+ Code Review - Design da PR
+--source master +task+ A PR contém somente os arquivos que representam a entrega? _(Confira em files changed na PR)_
+--source master +task+ A descrição da PR segue [nossa documentação](http://wiki.drconsulta.com/pt-br/Playbook/Git/Padroes-de-Pull-Requests)? **(Lembre que aqui é aonde colocamos variaveis de ambientes, script de banco, descrição de negócio e etc)**
+--source master +title+ Deploy
+--source master +task+ As **variaveis de ambiente** estão atualizadas? _NOTA1: Lembre-se que o front possui 2 triggers no cloud build para atualização_
+--source master +task+ E os **scripts de banco** estão atualizados?
+--source master +task+ Há algo no **CMS (Contentful)** que precise de atualização?
+--source master +comment+ Após o merge na master não se esqueça de criar o Release dessa versão no GitHub, acompanhar pipeline de deploy, fazer e evidenciar smoke test e por fim comunicar o sucesso/falha do deploy nos e-mails de comunicação. **Bom deploy** :smile:
