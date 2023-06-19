@@ -1,8 +1,0 @@
-# Checklist for new features
---source test/* +title+ Feature releasable?
---source test/* +task+ Feature is [discoverable](https://fishshell.com/docs/current/design.html#the-law-of-discoverability) for users?
---source test/* +task+ [UX intuitive and better than before](https://fishshell.com/docs/current/design.html#the-law-of-user-focus)?
---source test/* +task+ Feature covered by automated tests?
---source test/* +task+ [Public documentation](https://mibexsoftware.atlassian.net/wiki/spaces/CB/pages/3004661778/GitHub+-+Pull+Request+Checklist+Buddy) and [Marketplace listing](https://github.com/marketplace/pull-request-checklist-buddy) ready?
---source test/* +task+ Release note snippet for public release notes?
---source test/* +task+ Manual test cases and testing instructions documented in Jira issues?
