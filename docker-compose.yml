@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  api:
+    networks:
+      - poc
+    container_name: api
+    build:
+      context: .
+    image: api
+    env_file:
+      - .env
+    restart: always
+    volumes:
+      - ./:/code
+      - ./node_modules:/code/node_modules
+    ports:
+      - ${APPLICATION_PORT}:3000
+networks:
+  poc:
+    driver: bridge
