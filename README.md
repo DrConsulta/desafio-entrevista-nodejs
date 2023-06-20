@@ -6,7 +6,7 @@ REST API
 
 * [NestJS](https://github.com/nestjs/nest)
 * [TypeScript](https://github.com/nestjs/nest)
-* [Mongoose](https://mongoosejs.com/)
+* [TypeORM](https://typeorm.io/)
 * [MySQL](https://www.mysql.com/)
 * [Jest](https://jestjs.io/)
 * [Swagger](https://swagger.io/)

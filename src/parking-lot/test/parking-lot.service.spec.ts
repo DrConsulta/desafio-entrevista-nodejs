@@ -4,12 +4,12 @@ import {
 } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { ParkingService } from '@src/parking-lot/parking.service';
-import { Parking } from '@src/parking-lot/entities/parking.entity';
-import { ParkingTestMocks } from '@src/commom/test/mocks/parking';
+import { ParkingLotService } from '@src/parking-lot/parking-lot.service';
+import { ParkingLot } from '@src/parking-lot/entities/parking-lot.entity';
+import { ParkingLotTestMocks } from '@src/commom/test/mocks/parking-lot';
 
-describe('ParkingService', () => {
-  let service: ParkingService;
+describe('ParkingLotService', () => {
+  let service: ParkingLotService;
 
   const mockRepository = {
     create: jest.fn(),
@@ -23,9 +23,9 @@ describe('ParkingService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        ParkingService,
+        ParkingLotService,
         {
-          provide: getRepositoryToken(Parking),
+          provide: getRepositoryToken(ParkingLot),
           useValue: mockRepository,
         },
       ],
@@ -38,16 +38,16 @@ describe('ParkingService', () => {
     mockRepository.update.mockReset();
     mockRepository.softDelete.mockReset();
 
-    service = module.get<ParkingService>(ParkingService);
+    service = module.get<ParkingLotService>(ParkingLotService);
   });
 
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
 
-  describe('When create a parking.', () => {
-    it('shoud create a new parking.', async () => {
-      const parking = ParkingTestMocks.getValidParkingDto();
+  describe('When create a parking lot.', () => {
+    it('shoud create a new parking lot.', async () => {
+      const parking = ParkingLotTestMocks.getValidParkingLotDto();
       mockRepository.create.mockReturnValue(parking);
       mockRepository.save.mockReturnValue(parking);
       const newParking = await service.create(parking);
@@ -58,7 +58,7 @@ describe('ParkingService', () => {
     });
 
     it('should return InternalServerErrorException for error on parking creation.', async () => {
-      const parking = ParkingTestMocks.getValidParkingDto();
+      const parking = ParkingLotTestMocks.getValidParkingLotDto();
       mockRepository.create.mockReturnValue(parking);
       mockRepository.save.mockReturnValue(null);
 
@@ -71,9 +71,9 @@ describe('ParkingService', () => {
     });
   });
 
-  describe('When find all parkings.', () => {
-    it('should be list all parkings.', async () => {
-      const parking = ParkingTestMocks.getValidParkingDto();
+  describe('When find all parking lots.', () => {
+    it('should be list all parking lots.', async () => {
+      const parking = ParkingLotTestMocks.getValidParkingLotDto();
       mockRepository.find.mockReturnValue([parking, parking]);
       const parkings = await service.findAll();
 
@@ -82,9 +82,9 @@ describe('ParkingService', () => {
     });
   });
 
-  describe('When find one parking by id.', () => {
-    it('should find a existing parking.', async () => {
-      const parking = ParkingTestMocks.getValidParking();
+  describe('When find one parking lot by id.', () => {
+    it('should find a existing parking lot.', async () => {
+      const parking = ParkingLotTestMocks.getValidParkingLot();
       mockRepository.findOneBy.mockReturnValue(parking);
       const foundParking = await service.findOne(1);
 
@@ -112,9 +112,9 @@ describe('ParkingService', () => {
     });
   });
 
-  describe('When update parking by id.', () => {
-    it('should perform update to existing parking.', async () => {
-      const parking = ParkingTestMocks.getValidParkingDto();
+  describe('When update parking lot by id.', () => {
+    it('should perform update to existing parking lot.', async () => {
+      const parking = ParkingLotTestMocks.getValidParkingLotDto();
       mockRepository.findOneBy.mockReturnValue(parking);
       const updateParkingData = {
         collor: 'Silver',
@@ -139,9 +139,9 @@ describe('ParkingService', () => {
     });
   });
 
-  describe('When delete parking by id.', () => {
-    it('should perform delete to existing parking.', async () => {
-      const parking = ParkingTestMocks.getValidParkingDto();
+  describe('When delete parking lot by id.', () => {
+    it('should perform delete to existing parking lot.', async () => {
+      const parking = ParkingLotTestMocks.getValidParkingLotDto();
       mockRepository.findOneBy.mockReturnValue(parking);
       mockRepository.softDelete.mockReturnValue(parking);
       const deleteAction = await service.remove(1);
@@ -152,7 +152,7 @@ describe('ParkingService', () => {
     });
 
     it('should not perform delete to existing parking.', async () => {
-      const parking = ParkingTestMocks.getValidParkingDto();
+      const parking = ParkingLotTestMocks.getValidParkingLotDto();
       mockRepository.findOneBy.mockReturnValue(parking);
       mockRepository.softDelete.mockReturnValue(null);
       const deleteAction = await service.remove(1);

@@ -16,15 +16,15 @@ export class ParkingLotService {
    */
   constructor(
     @InjectRepository(ParkingLot)
-    private parkingRepository: Repository<ParkingLot>,
+    private parkingLotRepository: Repository<ParkingLot>,
   ) {}
 
   /**
    * Create a new parking lot.
    */
   async create(input: CreateParkingLotDto): Promise<ParkingLot> {
-    const parking = this.parkingRepository.create(input);
-    const newParking = await this.parkingRepository.save(parking);
+    const parking = this.parkingLotRepository.create(input);
+    const newParking = await this.parkingLotRepository.save(parking);
 
     if (!newParking) {
       throw new InternalServerErrorException(
@@ -39,46 +39,46 @@ export class ParkingLotService {
    * Find all parking lots.
    */
   async findAll(): Promise<ParkingLot[]> {
-    const parkings = await this.parkingRepository.find();
+    const parkingLots = await this.parkingLotRepository.find();
 
-    return parkings;
+    return parkingLots;
   }
 
   /**
    * Find one parking lot.
    */
   async findOne(id: number): Promise<ParkingLot> {
-    const parking = await this.parkingRepository.findOneBy({ id: id });
+    const parkingLot = await this.parkingLotRepository.findOneBy({ id: id });
 
-    if (!parking) {
+    if (!parkingLot) {
       throw new NotFoundException('Parking not found!');
     }
 
-    return parking;
+    return parkingLot;
   }
 
   /**
    * Update one parking lot.
    */
   async update(id: number, input: UpdateParkingLotDto): Promise<ParkingLot> {
-    const parking = await this.findOne(id);
-    await this.parkingRepository.update(parking, { ...input });
-    const updatedParking = this.parkingRepository.create({
-      ...parking,
+    const parkingLot = await this.findOne(id);
+    await this.parkingLotRepository.update(parkingLot, { ...input });
+    const updatedParkingLot = this.parkingLotRepository.create({
+      ...parkingLot,
       ...input,
     });
 
-    return updatedParking;
+    return updatedParkingLot;
   }
 
   /**
    * Delete one parking lot.
    */
   async remove(id: number): Promise<boolean> {
-    const parking = await this.findOne(id);
-    const deletedParking = await this.parkingRepository.softDelete(parking);
+    const parkingLot = await this.findOne(id);
+    const deletedParkingLot = await this.parkingLotRepository.softDelete(parkingLot);
 
-    if (deletedParking) {
+    if (deletedParkingLot) {
       return true;
     }
 

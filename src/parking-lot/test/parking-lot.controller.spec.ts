@@ -1,13 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ParkingController } from '@src/parking-lot/parking-lot.controller';
-import { ParkingService } from '@src/parking-lot/parking.service';
-import { Parking } from '@src/parking-lot/entities/parking.entity';
-import { CreateParkingDto } from '@src/parking-lot/dto/create-parking.dto';
-import { UpdateParkingDto } from '@src/parking-lot/dto/update-parking.dto';
+import { ParkingLotController } from '@src/parking-lot/parking-lot.controller';
+import { ParkingLotService } from '@src/parking-lot/parking-lot.service';
+import { ParkingLot } from '@src/parking-lot/entities/parking-lot.entity';
+import { CreateParkingLotDto } from '@src/parking-lot/dto/create-parking-lot.dto';
+import { UpdateParkingLotDto } from '@src/parking-lot/dto/update-parking-lot.dto';
 
-describe('ParkingController', () => {
-  let controller: ParkingController;
-  let service: ParkingService;
+describe('ParkingLotController', () => {
+  let controller: ParkingLotController;
+  let service: ParkingLotService;
 
   const mockService = {
     create: jest.fn(),
@@ -17,7 +17,7 @@ describe('ParkingController', () => {
     remove: jest.fn(),
   };
 
-  const parkings: Parking[] = [
+  const parkingLots: ParkingLot[] = [
     {
       id: 1,
       name: 'Parking 1',
@@ -42,7 +42,7 @@ describe('ParkingController', () => {
     },
   ];
 
-  const newParking: Parking = new Parking({
+  const newParkingLot: ParkingLot = new ParkingLot({
     name: 'Parking 1',
     document: '11.111.111/1111-11',
     address: 'Rua das Casas, SN, Bairro - Cidade',
@@ -51,17 +51,17 @@ describe('ParkingController', () => {
     carCapacity: 20,
   });
 
-  const updatedParking = new Parking({
+  const updatedParkingLot = new ParkingLot({
     motorcycleCapacity: 15,
     carCapacity: 25,
   });
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [ParkingController],
+      controllers: [ParkingLotController],
       providers: [
         {
-          provide: ParkingService,
+          provide: ParkingLotService,
           useValue: mockService,
         },
       ],
@@ -73,17 +73,17 @@ describe('ParkingController', () => {
     mockService.update.mockReset();
     mockService.remove.mockReset();
 
-    controller = module.get<ParkingController>(ParkingController);
-    service = module.get<ParkingService>(ParkingService);
+    controller = module.get<ParkingLotController>(ParkingLotController);
+    service = module.get<ParkingLotService>(ParkingLotService);
   });
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
   });
 
-  describe('When try to create a new parking.', () => {
-    it('should create a new parking.', async () => {
-      const input: CreateParkingDto = {
+  describe('When try to create a new parking lot.', () => {
+    it('should create a new parking lot.', async () => {
+      const input: CreateParkingLotDto = {
         name: 'Parking 1',
         document: '11.111.111/1111-11',
         address: 'Rua das Casas, SN, Bairro - Cidade',
@@ -92,10 +92,10 @@ describe('ParkingController', () => {
         carCapacity: 20,
       };
 
-      mockService.create.mockResolvedValue(newParking);
+      mockService.create.mockResolvedValue(newParkingLot);
       const response = await controller.create(input);
 
-      expect(response).toEqual(newParking);
+      expect(response).toEqual(newParkingLot);
       expect(service.create).toHaveBeenCalledTimes(1);
       expect(service.create).toHaveBeenCalledWith(input);
     });
@@ -106,28 +106,28 @@ describe('ParkingController', () => {
     });
   });
 
-  describe('When try to list all parkings.', () => {
-    it('should return a list all parkings.', async () => {
-      mockService.findAll.mockResolvedValue(parkings);
+  describe('When try to list all parking lots.', () => {
+    it('should return a list all parking lots.', async () => {
+      mockService.findAll.mockResolvedValue(parkingLots);
       const response = await controller.findAll();
 
-      expect(response).toEqual(parkings);
+      expect(response).toEqual(parkingLots);
       expect(typeof response).toEqual('object');
       expect(service.findAll).toHaveBeenCalledTimes(1);
     });
-    it('should thow an exception when list all parkings.', () => {
+    it('should thow an exception when list all parking lots.', () => {
       jest.spyOn(service, 'findAll').mockRejectedValueOnce(new Error());
 
-      expect(controller.findAll).rejects.toThrowError();
+      expect(service.findAll).rejects.toThrowError();
     });
   });
 
-  describe('When try to list one parking.', () => {
-    it('should list one parking.', async () => {
-      mockService.findOne.mockResolvedValue(parkings[0]);
+  describe('When try to list one parking lot.', () => {
+    it('should list one parking lot.', async () => {
+      mockService.findOne.mockResolvedValue(parkingLots[0]);
       const response = await controller.findOne(1);
 
-      expect(response).toEqual(parkings[0]);
+      expect(response).toEqual(parkingLots[0]);
       expect(service.findOne).toHaveBeenCalledTimes(1);
       expect(service.findOne).toHaveBeenCalledWith(1);
     });
@@ -138,18 +138,18 @@ describe('ParkingController', () => {
     });
   });
 
-  describe('When try to update parking data.', () => {
-    it('should update a one parking data.', async () => {
-      const input: UpdateParkingDto = {
+  describe('When try to update parking lot data.', () => {
+    it('should update a one parking lot data.', async () => {
+      const input: UpdateParkingLotDto = {
         motorcycleCapacity: 15,
         carCapacity: 25,
       };
-      mockService.update.mockResolvedValue(updatedParking);
+      mockService.update.mockResolvedValue(updatedParkingLot);
       const result = await controller.update(1, input);
 
       expect(result).toMatchObject({
-        motorcycleCapacity: updatedParking.motorcycleCapacity,
-        carCapacity: updatedParking.carCapacity,
+        motorcycleCapacity: updatedParkingLot.motorcycleCapacity,
+        carCapacity: updatedParkingLot.carCapacity,
       });
       expect(service.update).toBeCalledTimes(1);
       expect(service.update).toBeCalledWith(1, input);
@@ -161,8 +161,8 @@ describe('ParkingController', () => {
     });
   });
 
-  describe('When try to delete parking.', () => {
-    it('should delete parking.', async () => {
+  describe('When try to delete parking lot.', () => {
+    it('should delete parking lot.', async () => {
       mockService.remove.mockResolvedValue(undefined);
       const result = await controller.remove(1);
 
