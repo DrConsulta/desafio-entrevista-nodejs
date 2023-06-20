@@ -6,6 +6,10 @@
 /node_modules
 ###< dependencies ###
 
+###> docker ###
+.mysql-data/
+###< docker ###
+
 ###> environment ###
 .env
 ###< environment ###

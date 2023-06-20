@@ -1,7 +1,28 @@
 version: '3.8'
 
 services:
+  database:
+    networks:
+      - poc
+    container_name: mysql
+    image: mysql:5.7
+    env_file:
+      - .env
+    restart: always
+    environment:
+      MYSQL_DATABASE: MYSQL_DATABASE
+      MYSQL_USER: MYSQL_USER
+      MYSQL_PASSWORD: MYSQL_PASSWORD
+      MYSQL_ROOT_PASSWORD: MYSQL_ROOT_PASSWORD
+    ports:
+      - ${MYSQL_PORT}:3306
+    expose:
+      - ${MYSQL_PORT}
+    volumes:
+      - './.mysql-data/db:/var/lib/mysql'
   api:
+    depends_on:
+      - database
     networks:
       - poc
     container_name: api

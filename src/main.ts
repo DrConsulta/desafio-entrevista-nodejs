@@ -8,8 +8,8 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   const config = new DocumentBuilder()
-    .setTitle('Parking API')
-    .setDescription('Manage vehicles into parking.')
+    .setTitle('Parking Lot API')
+    .setDescription('Manage vehicles into parking lot.')
     .setVersion(process.env.npm_package_version)
     .build();
   const document = SwaggerModule.createDocument(app, config);
