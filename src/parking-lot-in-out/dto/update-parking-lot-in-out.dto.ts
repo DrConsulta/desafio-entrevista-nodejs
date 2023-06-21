@@ -1,4 +1,4 @@
-import { IsOptional, IsInt, IsDate } from 'class-validator';
+import { IsOptional, IsInt, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateParkingLotInOutDto } from '@src/parking-lot-in-out/dto/create-parking-lot-in-out.dto';
@@ -35,14 +35,14 @@ export class UpdateParkingLotInOutDto extends PartialType(
     default: new Date(),
   })
   @IsOptional()
-  @IsDate()
-  vehicleIn: Date;
+  @IsString()
+  vehicleIn: string;
 
   @ApiProperty({
     description: 'Vehicle exit date',
     default: undefined,
   })
   @IsOptional()
-  @IsDate()
-  vehicleOut?: Date;
+  @IsString()
+  vehicleOut?: string;
 }

@@ -4,7 +4,6 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  DeleteDateColumn,
 } from 'typeorm';
 
 @Entity()
@@ -19,10 +18,10 @@ export class ParkingLotInOut {
   vehicleId!: number;
 
   @Column()
-  vehicleIn!: Date;
+  vehicleIn!: string;
 
   @Column()
-  vehicleOut?: Date;
+  vehicleOut?: string;
 
   @CreateDateColumn()
   createdAt!: Date;
@@ -30,14 +29,13 @@ export class ParkingLotInOut {
   @UpdateDateColumn()
   updatedAt!: Date;
 
-  @DeleteDateColumn()
-  deletedAt?: Date;
-
   constructor(parkingLotInOut?: Partial<ParkingLotInOut>) {
     this.id = parkingLotInOut?.id;
     this.parkingLotId = parkingLotInOut?.parkingLotId;
     this.vehicleId = parkingLotInOut?.vehicleId;
     this.vehicleIn = parkingLotInOut?.vehicleIn;
     this.vehicleOut = parkingLotInOut?.vehicleOut;
+    this.createdAt = parkingLotInOut?.createdAt;
+    this.updatedAt = parkingLotInOut?.updatedAt;
   }
 }

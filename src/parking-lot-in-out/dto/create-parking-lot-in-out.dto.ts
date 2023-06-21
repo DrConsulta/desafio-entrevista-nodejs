@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsInt, IsDate } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsInt, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateParkingLotInOutDto {
@@ -23,14 +23,14 @@ export class CreateParkingLotInOutDto {
     default: new Date(),
   })
   @IsNotEmpty()
-  @IsDate()
-  vehicleIn: Date;
+  @IsString()
+  vehicleIn: string;
 
   @ApiProperty({
-    description: 'Vehicle exit date',
+    description: 'Vehicle exit string',
     default: undefined,
   })
   @IsOptional()
-  @IsDate()
-  vehicleOut?: Date;
+  @IsString()
+  vehicleOut?: string;
 }

@@ -4,7 +4,6 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  DeleteDateColumn,
 } from 'typeorm';
 
 @Entity()
@@ -33,9 +32,6 @@ export class Vehicle {
   @UpdateDateColumn()
   updatedAt!: Date;
 
-  @DeleteDateColumn()
-  deletedAt?: Date;
-
   constructor(vehicle?: Partial<Vehicle>) {
     this.id = vehicle?.id;
     this.brand = vehicle?.brand;
@@ -45,6 +41,5 @@ export class Vehicle {
     this.type = vehicle?.type;
     this.createdAt = vehicle?.createdAt;
     this.updatedAt = vehicle?.updatedAt;
-    this.deletedAt = vehicle?.deletedAt;
   }
 }

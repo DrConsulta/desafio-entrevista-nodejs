@@ -76,7 +76,9 @@ export class ParkingLotService {
    */
   async remove(id: number): Promise<boolean> {
     const parkingLot = await this.findOne(id);
-    const deletedParkingLot = await this.parkingLotRepository.softDelete(parkingLot);
+    const deletedParkingLot = await this.parkingLotRepository.remove(
+      parkingLot,
+    );
 
     if (deletedParkingLot) {
       return true;

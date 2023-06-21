@@ -36,9 +36,6 @@ export class ParkingLot {
   @UpdateDateColumn()
   updatedAt!: Date;
 
-  @DeleteDateColumn()
-  deletedAt?: Date;
-
   constructor(parkingLot?: Partial<ParkingLot>) {
     this.id = parkingLot?.id;
     this.name = parkingLot?.name;
@@ -49,6 +46,5 @@ export class ParkingLot {
     this.carCapacity = parkingLot?.carCapacity;
     this.createdAt = parkingLot?.createdAt;
     this.updatedAt = parkingLot?.updatedAt;
-    this.deletedAt = parkingLot?.deletedAt;
   }
 }

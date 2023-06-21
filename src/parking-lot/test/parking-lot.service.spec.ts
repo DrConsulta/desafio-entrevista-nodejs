@@ -17,7 +17,7 @@ describe('ParkingLotService', () => {
     find: jest.fn(),
     findOneBy: jest.fn(),
     update: jest.fn(),
-    softDelete: jest.fn(),
+    remove: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -36,7 +36,7 @@ describe('ParkingLotService', () => {
     mockRepository.find.mockReset();
     mockRepository.findOneBy.mockReset();
     mockRepository.update.mockReset();
-    mockRepository.softDelete.mockReset();
+    mockRepository.remove.mockReset();
 
     service = module.get<ParkingLotService>(ParkingLotService);
   });
@@ -143,23 +143,23 @@ describe('ParkingLotService', () => {
     it('should perform delete to existing parking lot.', async () => {
       const parking = ParkingLotTestMocks.getValidParkingLotDto();
       mockRepository.findOneBy.mockReturnValue(parking);
-      mockRepository.softDelete.mockReturnValue(parking);
+      mockRepository.remove.mockReturnValue(parking);
       const deleteAction = await service.remove(1);
 
       expect(deleteAction).toBe(true);
       expect(mockRepository.findOneBy).toBeCalledTimes(1);
-      expect(mockRepository.softDelete).toBeCalledTimes(1);
+      expect(mockRepository.remove).toBeCalledTimes(1);
     });
 
     it('should not perform delete to existing parking.', async () => {
       const parking = ParkingLotTestMocks.getValidParkingLotDto();
       mockRepository.findOneBy.mockReturnValue(parking);
-      mockRepository.softDelete.mockReturnValue(null);
+      mockRepository.remove.mockReturnValue(null);
       const deleteAction = await service.remove(1);
 
       expect(deleteAction).toBe(false);
       expect(mockRepository.findOneBy).toBeCalledTimes(1);
-      expect(mockRepository.softDelete).toBeCalledTimes(1);
+      expect(mockRepository.remove).toBeCalledTimes(1);
     });
   });
 });

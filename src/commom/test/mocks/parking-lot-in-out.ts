@@ -7,7 +7,7 @@ export class ParkingLotInOutTestMocks {
     parkingLotInOut.id = 1;
     parkingLotInOut.parkingLotId = 1;
     parkingLotInOut.vehicleId = 1;
-    parkingLotInOut.vehicleIn = new Date();
+    parkingLotInOut.vehicleIn = '2023-06-21 00:00:00';
 
     return parkingLotInOut;
   }
@@ -16,7 +16,7 @@ export class ParkingLotInOutTestMocks {
     const parkingLotInOut = new CreateParkingLotInOutDto();
     parkingLotInOut.parkingLotId = 1;
     parkingLotInOut.vehicleId = 1;
-    parkingLotInOut.vehicleIn = new Date();
+    parkingLotInOut.vehicleIn = '2023-06-21 00:00:00';
 
     return parkingLotInOut;
   }

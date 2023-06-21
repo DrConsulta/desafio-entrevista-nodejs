@@ -22,7 +22,7 @@ describe('ParkingLotInOutController', () => {
       id: 1,
       parkingLotId: 1,
       vehicleId: 1,
-      vehicleIn: new Date(),
+      vehicleIn: '2023-06-21 00:00:00',
       createdAt: new Date(),
       updatedAt: new Date(),
     },
@@ -30,7 +30,7 @@ describe('ParkingLotInOutController', () => {
       id: 2,
       parkingLotId: 1,
       vehicleId: 2,
-      vehicleIn: new Date(),
+      vehicleIn: '2023-06-21 00:00:00',
       createdAt: new Date(),
       updatedAt: new Date(),
     },
@@ -39,13 +39,13 @@ describe('ParkingLotInOutController', () => {
   const newParkLotInOut: ParkingLotInOut = new ParkingLotInOut({
     parkingLotId: 1,
     vehicleId: 1,
-    vehicleIn: new Date(),
+    vehicleIn: '2023-06-21 00:00:00',
   });
 
   const updatedParkingLotInOut = new ParkingLotInOut({
     parkingLotId: 1,
     vehicleId: 1,
-    vehicleIn: new Date(),
+    vehicleIn: '2023-06-21 00:00:00',
   });
 
   beforeEach(async () => {

@@ -75,7 +75,7 @@ export class VehicleService {
    */
   async remove(id: number): Promise<boolean> {
     const vehicle = await this.findOne(id);
-    const deletedVehicle = await this.vehicleRepository.softDelete(vehicle);
+    const deletedVehicle = await this.vehicleRepository.remove(vehicle);
 
     if (deletedVehicle) {
       return true;
