@@ -1,0 +1,48 @@
+name: Ensure Code Quality
+
+env:
+  LANG: "en_US.UTF-8"
+  ImageOS: ubuntu-latest
+  NODE_ENV: development
+
+on: pull_request
+
+jobs:
+  lint-and-test:
+    name: Run linter and tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node_version: [18]
+    steps:
+      - name: Checkout Github repo
+        uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node_version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node_version }}
+      - name: Install Yarn
+        run: npm install -g yarn
+      - name: Install packages
+        run: yarn install
+      - name: Lint Code Base
+        uses: github/super-linter/slim@v4
+        env:
+          VALIDATE_JSCPD: false
+          VALIDATE_TYPESCRIPT_STANDARD: false
+          VALIDATE_JAVASCRIPT_STANDARD: false
+          VALIDATE_JAVASCRIPT_ES: false
+          VALIDATE_ALL_CODEBASE: false
+          FILTER_REGEX_INCLUDE: .*src/.*.ts
+          IGNORE_GENERATED_FILES: true
+          DEFAULT_BRANCH: develop
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run Tests
+        uses: mattallty/jest-github-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run E2E Tests
+        run: yarn run test:e2e
+      - name: Uninstall Yarn
+        if: always()
+        run: npm uninstall -g yarn
