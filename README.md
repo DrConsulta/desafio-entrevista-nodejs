@@ -43,9 +43,10 @@ $ yarn install
 ## Endpoints
 
 ```bash
-# GET /
+# Method: GET /
 $ curl http://localhost:3000/
-{"healthy":true,"name":"Parking Lot API","version":0.0.1}
+
+{"healthy":true,"name":"Parking Lot API","version":"0.0.1"}
 ```
 
 ## Test
