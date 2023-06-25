@@ -6,8 +6,10 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiParam } from '@nestjs/swagger';
+import { AuthGuard } from '@src/auth/auth.guard';
 import { ParkingLotInOutService } from '@src/parking-lot-in-out/parking-lot-in-out.service';
 import { CreateParkingLotInOutDto } from '@src/parking-lot-in-out/dto/create-parking-lot-in-out.dto';
 import { UpdateParkingLotInOutDto } from '@src/parking-lot-in-out/dto/update-parking-lot-in-out.dto';
@@ -22,7 +24,7 @@ export class ParkingLotInOutController {
   ) {}
 
   /**
-   * Create a new parking lot.
+   * Create a new parking lot entrance or entrance/exit.
    */
   @ApiParam({
     name: 'vehicleOut',
@@ -52,21 +54,23 @@ export class ParkingLotInOutController {
     type: 'integer',
     example: 1,
   })
+  @UseGuards(AuthGuard)
   @Post()
   create(@Body() createParkingLotInOutDto: CreateParkingLotInOutDto) {
     return this.parkingLotInOutService.create(createParkingLotInOutDto);
   }
 
   /**
-   * Find all parking lots.
+   * Find all parking lots entrances and exits.
    */
+  @UseGuards(AuthGuard)
   @Get()
   findAll() {
     return this.parkingLotInOutService.findAll();
   }
 
   /**
-   * Find one parking lot.
+   * Find one parking lot entrances and exit.
    */
   @ApiParam({
     name: 'id',
@@ -75,13 +79,14 @@ export class ParkingLotInOutController {
     type: 'integer',
     example: 1,
   })
+  @UseGuards(AuthGuard)
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.parkingLotInOutService.findOne(id);
   }
 
   /**
-   * Update one parking lot.
+   * Update one parking lot entrance or entrance/exit.
    */
   @ApiParam({
     name: 'vehicleOut',
@@ -118,6 +123,7 @@ export class ParkingLotInOutController {
     type: 'integer',
     example: 1,
   })
+  @UseGuards(AuthGuard)
   @Patch(':id')
   update(
     @Param('id') id: number,
@@ -127,7 +133,7 @@ export class ParkingLotInOutController {
   }
 
   /**
-   * Delete one parking lot.
+   * Delete one parking lot entrance or entrance/exit.
    */
   @ApiParam({
     name: 'id',
@@ -136,6 +142,7 @@ export class ParkingLotInOutController {
     type: 'integer',
     example: 1,
   })
+  @UseGuards(AuthGuard)
   @Delete(':id')
   remove(@Param('id') id: number) {
     return this.parkingLotInOutService.remove(id);

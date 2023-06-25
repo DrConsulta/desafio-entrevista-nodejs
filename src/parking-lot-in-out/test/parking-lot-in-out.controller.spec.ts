@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { JwtService } from '@nestjs/jwt';
 import { ParkingLotInOutController } from '@src/parking-lot-in-out/parking-lot-in-out.controller';
 import { ParkingLotInOutService } from '@src/parking-lot-in-out/parking-lot-in-out.service';
 import { ParkingLotInOut } from '@src/parking-lot-in-out/entities/parking-lot-in-out.entity';
@@ -15,6 +16,9 @@ describe('ParkingLotInOutController', () => {
     findOne: jest.fn(),
     update: jest.fn(),
     remove: jest.fn(),
+  };
+  const mockJwtService = {
+    signAsync: jest.fn(),
   };
 
   const parkLotsInOut: ParkingLotInOut[] = [
@@ -56,6 +60,10 @@ describe('ParkingLotInOutController', () => {
           provide: ParkingLotInOutService,
           useValue: mockService,
         },
+        {
+          provide: JwtService,
+          useValue: mockJwtService,
+        },
       ],
     }).compile();
 
@@ -80,7 +88,7 @@ describe('ParkingLotInOutController', () => {
       const input: CreateParkingLotInOutDto = {
         parkingLotId: 1,
         vehicleId: 1,
-        vehicleIn: new Date(),
+        vehicleIn: '2023-06-21 00:00:00',
       };
 
       mockService.create.mockResolvedValue(newParkLotInOut);
@@ -134,8 +142,8 @@ describe('ParkingLotInOutController', () => {
       const input: UpdateParkingLotInOutDto = {
         parkingLotId: 1,
         vehicleId: 2,
-        vehicleIn: new Date(),
-        vehicleOut: new Date(),
+        vehicleIn: '2023-06-21 00:00:00',
+        vehicleOut: '2023-06-21 02:00:00',
       };
       mockService.update.mockResolvedValue(updatedParkingLotInOut);
       const result = await controller.update(1, input);

@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { JwtService } from '@nestjs/jwt';
 import { VehicleController } from '@src/vehicle/vehicle.controller';
 import { VehicleService } from '@src/vehicle/vehicle.service';
 import { Vehicle } from '@src/vehicle/entities/vehicle.entity';
@@ -15,6 +16,9 @@ describe('VehicleController', () => {
     findOne: jest.fn(),
     update: jest.fn(),
     remove: jest.fn(),
+  };
+  const mockJwtService = {
+    signAsync: jest.fn(),
   };
 
   const vehicles: Vehicle[] = [
@@ -59,6 +63,10 @@ describe('VehicleController', () => {
         {
           provide: VehicleService,
           useValue: mockService,
+        },
+        {
+          provide: JwtService,
+          useValue: mockJwtService,
         },
       ],
     }).compile();

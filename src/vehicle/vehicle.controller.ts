@@ -6,8 +6,10 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiParam } from '@nestjs/swagger';
+import { AuthGuard } from '@src/auth/auth.guard';
 import { VehicleService } from '@src/vehicle/vehicle.service';
 import { CreateVehicleDto } from '@src/vehicle/dto/create-vehicle.dto';
 import { UpdateVehicleDto } from '@src/vehicle/dto/update-vehicle.dto';
@@ -57,6 +59,7 @@ export class VehicleController {
     type: 'string',
     example: 'Honda',
   })
+  @UseGuards(AuthGuard)
   @Post()
   create(@Body() createVehicleDto: CreateVehicleDto) {
     return this.vehicleService.create(createVehicleDto);
@@ -65,6 +68,7 @@ export class VehicleController {
   /**
    * Find all vehicles.
    */
+  @UseGuards(AuthGuard)
   @Get()
   findAll() {
     return this.vehicleService.findAll();
@@ -80,6 +84,7 @@ export class VehicleController {
     type: 'integer',
     example: 1,
   })
+  @UseGuards(AuthGuard)
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.vehicleService.findOne(id);
@@ -130,6 +135,7 @@ export class VehicleController {
     type: 'string',
     example: 'Honda',
   })
+  @UseGuards(AuthGuard)
   @Patch(':id')
   update(@Param('id') id: number, @Body() updateVehicleDto: UpdateVehicleDto) {
     return this.vehicleService.update(id, updateVehicleDto);
@@ -145,6 +151,7 @@ export class VehicleController {
     type: 'integer',
     example: 1,
   })
+  @UseGuards(AuthGuard)
   @Delete(':id')
   remove(@Param('id') id: number) {
     return this.vehicleService.remove(id);

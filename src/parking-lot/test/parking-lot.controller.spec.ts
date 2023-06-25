@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { JwtService } from '@nestjs/jwt';
 import { ParkingLotController } from '@src/parking-lot/parking-lot.controller';
 import { ParkingLotService } from '@src/parking-lot/parking-lot.service';
 import { ParkingLot } from '@src/parking-lot/entities/parking-lot.entity';
@@ -15,6 +16,9 @@ describe('ParkingLotController', () => {
     findOne: jest.fn(),
     update: jest.fn(),
     remove: jest.fn(),
+  };
+  const mockJwtService = {
+    signAsync: jest.fn(),
   };
 
   const parkingLots: ParkingLot[] = [
@@ -63,6 +67,10 @@ describe('ParkingLotController', () => {
         {
           provide: ParkingLotService,
           useValue: mockService,
+        },
+        {
+          provide: JwtService,
+          useValue: mockJwtService,
         },
       ],
     }).compile();
