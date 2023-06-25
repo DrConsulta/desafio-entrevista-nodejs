@@ -6,7 +6,7 @@ REST API
 
 * [NestJS](https://github.com/nestjs/nest)
 * [TypeScript](https://github.com/nestjs/nest)
-* [Mongoose](https://mongoosejs.com/)
+* [TypeORM](https://typeorm.io/)
 * [MySQL](https://www.mysql.com/)
 * [Jest](https://jestjs.io/)
 * [Swagger](https://swagger.io/)
@@ -38,6 +38,15 @@ $ docker exec -it api bash
 
 # Install application dependencies.
 $ yarn install
+```
+
+## Endpoints
+
+```bash
+# Method: GET /
+$ curl http://localhost:3000/
+
+{"healthy":true,"name":"Parking Lot API","version":"0.0.1"}
 ```
 
 ## Test

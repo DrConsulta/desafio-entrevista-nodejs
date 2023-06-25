@@ -8,16 +8,14 @@ services:
     image: mysql:5.7
     env_file:
       - .env
-    restart: always
+    restart: unless-stopped
     environment:
-      MYSQL_DATABASE: MYSQL_DATABASE
-      MYSQL_USER: MYSQL_USER
-      MYSQL_PASSWORD: MYSQL_PASSWORD
-      MYSQL_ROOT_PASSWORD: MYSQL_ROOT_PASSWORD
+      MYSQL_DATABASE: ${DATABASE_SCHEMA}
+      MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}
     ports:
-      - ${MYSQL_PORT}:3306
+      - ${DATABASE_PORT}:3306
     expose:
-      - ${MYSQL_PORT}
+      - ${DATABASE_PORT}
     volumes:
       - './.mysql-data/db:/var/lib/mysql'
   api:

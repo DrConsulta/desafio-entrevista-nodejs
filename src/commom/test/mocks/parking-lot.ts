@@ -1,8 +1,8 @@
 import { ParkingLot } from '@src/parking-lot/entities/parking-lot.entity';
 import { CreateParkingLotDto } from '@src/parking-lot/dto/create-parking-lot.dto';
 
-export class ParkingTestMocks {
-  static getValidParking(): ParkingLot {
+export class ParkingLotTestMocks {
+  static getValidParkingLot(): ParkingLot {
     const parkingLot = new ParkingLot();
     parkingLot.id = 1;
     parkingLot.name = 'Park Lot #01';
@@ -15,7 +15,7 @@ export class ParkingTestMocks {
     return parkingLot;
   }
 
-  static getValidParkingDto(): CreateParkingLotDto {
+  static getValidParkingLotDto(): CreateParkingLotDto {
     const parkingLot = new CreateParkingLotDto();
     parkingLot.name = 'Park Lot #01';
     parkingLot.document = '00.000.000/0000-00';

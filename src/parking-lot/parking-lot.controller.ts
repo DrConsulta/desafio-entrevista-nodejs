@@ -6,8 +6,10 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiParam } from '@nestjs/swagger';
+import { AuthGuard } from '@src/auth/auth.guard';
 import { ParkingLotService } from '@src/parking-lot/parking-lot.service';
 import { CreateParkingLotDto } from '@src/parking-lot/dto/create-parking-lot.dto';
 import { UpdateParkingLotDto } from '@src/parking-lot/dto/update-parking-lot.dto';
@@ -64,6 +66,7 @@ export class ParkingLotController {
     type: 'string',
     example: 'Parking Lot #01',
   })
+  @UseGuards(AuthGuard)
   @Post()
   create(@Body() createParkingLotDto: CreateParkingLotDto) {
     return this.parkingLotService.create(createParkingLotDto);
@@ -72,6 +75,7 @@ export class ParkingLotController {
   /**
    * Find all parking lots.
    */
+  @UseGuards(AuthGuard)
   @Get()
   findAll() {
     return this.parkingLotService.findAll();
@@ -87,6 +91,7 @@ export class ParkingLotController {
     type: 'integer',
     example: 1,
   })
+  @UseGuards(AuthGuard)
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.parkingLotService.findOne(id);
@@ -144,6 +149,7 @@ export class ParkingLotController {
     type: 'string',
     example: 'Parking Lot #01',
   })
+  @UseGuards(AuthGuard)
   @Patch(':id')
   update(
     @Param('id') id: number,
@@ -162,6 +168,7 @@ export class ParkingLotController {
     type: 'integer',
     example: 1,
   })
+  @UseGuards(AuthGuard)
   @Delete(':id')
   remove(@Param('id') id: number) {
     return this.parkingLotService.remove(id);

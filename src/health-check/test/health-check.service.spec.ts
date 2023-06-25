@@ -16,10 +16,10 @@ describe('HealthCheckService', () => {
     expect(service).toBeDefined();
   });
 
-  it('should be "Parking API"', () => {
+  it('should be "Parking Lot API"', () => {
     const expected = {
       healthy: true,
-      name: 'Parking API',
+      name: 'Parking Lot API',
       version: process.env.npm_package_version,
     };
     expect(service.get()).toBeDefined();
