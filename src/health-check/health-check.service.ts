@@ -8,7 +8,7 @@ export class HealthCheckService {
   public get() {
     return {
       healthy: true,
-      name: 'Parking API',
+      name: 'Parking Lot API',
       version: process.env.npm_package_version,
     };
   }

@@ -19,7 +19,7 @@ describe('HealthCheck Test (E2E)', () => {
   it('/ (GET)', (done) => {
     const expected = {
       healthy: true,
-      name: 'Parking API',
+      name: 'Parking Lot API',
       version: process.env.npm_package_version,
     };
     return request(app.getHttpServer())

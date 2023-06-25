@@ -40,6 +40,14 @@ $ docker exec -it api bash
 $ yarn install
 ```
 
+## Endpoints
+
+```bash
+# GET /
+$ curl http://localhost:3000/
+{"healthy":true,"name":"Parking Lot API","version":0.0.1}
+```
+
 ## Test
 
 ```bash
