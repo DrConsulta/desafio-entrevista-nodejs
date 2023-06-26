@@ -1,0 +1,18 @@
+{
+  "moduleNameMapper": {
+    "@src/(.*)": "<rootDir>/../src/$1",
+    "@config/(.*)": "<rootDir>/../src/config/$1",
+    "@commom/(.*)": "<rootDir>/../src/commom/$1"
+  },
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ],
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "rootDir": ".",
+  "testEnvironment": "node",
+  "testRegex": ".e2e-spec.ts$",
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  }
+}

@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  database:
+    networks:
+      - poc
+    container_name: mysql
+    image: mysql:5.7
+    env_file:
+      - .env
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DATABASE_SCHEMA}
+      MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+    ports:
+      - ${DATABASE_PORT}:3306
+    expose:
+      - ${DATABASE_PORT}
+    volumes:
+      - './.mysql-data/db:/var/lib/mysql'
+  api:
+    depends_on:
+      - database
+    networks:
+      - poc
+    container_name: api
+    build:
+      context: .
+    image: api
+    env_file:
+      - .env
+    restart: always
+    volumes:
+      - ./:/code
+      - ./node_modules:/code/node_modules
+    ports:
+      - ${APPLICATION_PORT}:3000
+networks:
+  poc:
+    driver: bridge
