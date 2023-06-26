@@ -1,6 +1,11 @@
 import { Vehicle } from '@src/vehicle/entities/vehicle.entity';
 import { CreateVehicleDto } from '@src/vehicle/dto/create-vehicle.dto';
 
+export enum vehicleType {
+  MOTORCYCLE = 'Motorcycle',
+  CAR = 'Car',
+}
+
 export class VehicleTestMocks {
   static getValidVehicle(): Vehicle {
     const vehicle = new Vehicle();
@@ -9,7 +14,7 @@ export class VehicleTestMocks {
     vehicle.model = 'CRV';
     vehicle.collor = 'Black';
     vehicle.licensePlate = 'AAA 0000';
-    vehicle.type = 'Car';
+    vehicle.type = vehicleType.CAR;
 
     return vehicle;
   }
@@ -20,7 +25,7 @@ export class VehicleTestMocks {
     vehicle.model = 'CRV';
     vehicle.collor = 'Black';
     vehicle.licensePlate = 'AAA 0000';
-    vehicle.type = 'Car';
+    vehicle.type = vehicleType.CAR;
 
     return vehicle;
   }

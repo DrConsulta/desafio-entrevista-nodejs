@@ -8,13 +8,19 @@ import {
   Delete,
   UseGuards,
 } from '@nestjs/common';
-import { ApiParam } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ParkingLotInOutRequestSwagger } from '@src/parking-lot-in-out/swagger/parking-lot-in-out.request.swagger';
+import { ParkingLotInOutFindAllSwagger } from '@src/parking-lot-in-out/swagger/parking-lot-in-out.find-all.swagger';
+import { ParkingLotInOutBadRequestSwagger } from '@src/parking-lot-in-out/swagger/parking-lot-in-out.bad-request.swagger';
+import { ParkingLotInOutUnauthorizedSwagger } from '@src/parking-lot-in-out/swagger/parking-lot-in-out.unauthorized.swagger';
+import { ParkingLotInOutNotFoundSwagger } from '@src/parking-lot-in-out/swagger/parking-lot-in-out.not-found.swagger';
 import { AuthGuard } from '@src/auth/auth.guard';
 import { ParkingLotInOutService } from '@src/parking-lot-in-out/parking-lot-in-out.service';
 import { CreateParkingLotInOutDto } from '@src/parking-lot-in-out/dto/create-parking-lot-in-out.dto';
 import { UpdateParkingLotInOutDto } from '@src/parking-lot-in-out/dto/update-parking-lot-in-out.dto';
 
 @Controller('parking-lot-in-out')
+@ApiTags('Parking Lot In Out')
 export class ParkingLotInOutController {
   /**
    * Inject service dependency.
@@ -26,36 +32,26 @@ export class ParkingLotInOutController {
   /**
    * Create a new parking lot entrance or entrance/exit.
    */
-  @ApiParam({
-    name: 'vehicleOut',
-    required: false,
-    description: 'ParkingLot Vehicle exit',
-    type: 'date',
-    example: '2023-03-20 00:00:00',
+  @Post()
+  @ApiOperation({
+    summary: 'Create a new parking lot entrance or entrance/exit.',
   })
-  @ApiParam({
-    name: 'vehicleIn',
-    required: false,
-    description: 'ParkingLot Vehicle entrance',
-    type: 'date',
-    example: '2023-03-20 02:00:00',
+  @ApiResponse({
+    status: 201,
+    description: 'Create a new parking lot.',
+    type: ParkingLotInOutRequestSwagger,
   })
-  @ApiParam({
-    name: 'vehicleId',
-    required: true,
-    description: 'Vehicle Identification',
-    type: 'integer',
-    example: 1,
+  @ApiResponse({
+    status: 400,
+    description: 'Create a new parking lot bad request.',
+    type: ParkingLotInOutBadRequestSwagger,
   })
-  @ApiParam({
-    name: 'parkingLotId',
-    required: true,
-    description: 'Parking Lot Identification',
-    type: 'integer',
-    example: 1,
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized for create a new parking lot.',
+    type: ParkingLotInOutUnauthorizedSwagger,
   })
   @UseGuards(AuthGuard)
-  @Post()
   create(@Body() createParkingLotInOutDto: CreateParkingLotInOutDto) {
     return this.parkingLotInOutService.create(createParkingLotInOutDto);
   }
@@ -63,8 +59,20 @@ export class ParkingLotInOutController {
   /**
    * Find all parking lots entrances and exits.
    */
-  @UseGuards(AuthGuard)
   @Get()
+  @ApiOperation({ summary: 'Find all parking lots entrances and exits.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Find all parking lots.',
+    type: ParkingLotInOutFindAllSwagger,
+    isArray: true,
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized for find all parking lots.',
+    type: ParkingLotInOutUnauthorizedSwagger,
+  })
+  @UseGuards(AuthGuard)
   findAll() {
     return this.parkingLotInOutService.findAll();
   }
@@ -72,15 +80,25 @@ export class ParkingLotInOutController {
   /**
    * Find one parking lot entrances and exit.
    */
-  @ApiParam({
-    name: 'id',
-    required: true,
-    description: 'Identification of Parking Lot entrance/exit to be finded',
-    type: 'integer',
-    example: 1,
+  @Get(':id')
+  @ApiOperation({ summary: 'Find one parking lot entrances and exit.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Find one parking lot.',
+    type: ParkingLotInOutRequestSwagger,
+    isArray: true,
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized for find a parking lot.',
+    type: ParkingLotInOutUnauthorizedSwagger,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Not found any parking lot with passed ID.',
+    type: ParkingLotInOutNotFoundSwagger,
   })
   @UseGuards(AuthGuard)
-  @Get(':id')
   findOne(@Param('id') id: number) {
     return this.parkingLotInOutService.findOne(id);
   }
@@ -88,43 +106,31 @@ export class ParkingLotInOutController {
   /**
    * Update one parking lot entrance or entrance/exit.
    */
-  @ApiParam({
-    name: 'vehicleOut',
-    required: false,
-    description: 'ParkingLot Vehicle exit',
-    type: 'date',
-    example: '2023-03-20 00:00:00',
+  @Patch(':id')
+  @ApiOperation({
+    summary: 'Update one parking lot entrance or entrance/exit.',
   })
-  @ApiParam({
-    name: 'vehicleIn',
-    required: false,
-    description: 'ParkingLot Vehicle entrance',
-    type: 'date',
-    example: '2023-03-20 02:00:00',
+  @ApiResponse({
+    status: 200,
+    description: 'Update one parking lot.',
+    type: ParkingLotInOutRequestSwagger,
   })
-  @ApiParam({
-    name: 'vehicleId',
-    required: true,
-    description: 'Vehicle Identification',
-    type: 'integer',
-    example: 1,
+  @ApiResponse({
+    status: 400,
+    description: 'Update one parking lot bad request.',
+    type: ParkingLotInOutBadRequestSwagger,
   })
-  @ApiParam({
-    name: 'parkingLotId',
-    required: true,
-    description: 'Parking Lot Identification',
-    type: 'integer',
-    example: 1,
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized for update one parking lot.',
+    type: ParkingLotInOutUnauthorizedSwagger,
   })
-  @ApiParam({
-    name: 'id',
-    required: true,
-    description: 'Identification of Parking Lot entrance/exit to be updated',
-    type: 'integer',
-    example: 1,
+  @ApiResponse({
+    status: 404,
+    description: 'Not found any parking lot with passed ID.',
+    type: ParkingLotInOutNotFoundSwagger,
   })
   @UseGuards(AuthGuard)
-  @Patch(':id')
   update(
     @Param('id') id: number,
     @Body() updateParkingLotInOutDto: UpdateParkingLotInOutDto,
@@ -135,15 +141,21 @@ export class ParkingLotInOutController {
   /**
    * Delete one parking lot entrance or entrance/exit.
    */
-  @ApiParam({
-    name: 'id',
-    required: true,
-    description: 'Identification of Parking Lot entrance/exit to be deleted',
-    type: 'integer',
-    example: 1,
+  @Delete(':id')
+  @ApiOperation({
+    summary: 'Delete one parking lot entrance or entrance/exit.',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized for delete one parking lot.',
+    type: ParkingLotInOutUnauthorizedSwagger,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Not found any parking lot with passed ID.',
+    type: ParkingLotInOutNotFoundSwagger,
   })
   @UseGuards(AuthGuard)
-  @Delete(':id')
   remove(@Param('id') id: number) {
     return this.parkingLotInOutService.remove(id);
   }

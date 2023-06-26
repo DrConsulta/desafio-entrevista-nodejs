@@ -14,7 +14,7 @@ export class UpdateParkingLotDto extends PartialType(CreateParkingLotDto) {
 
   @ApiProperty({
     description: 'Name of Parking Lot',
-    default: 'Parking Lot #01',
+    default: 'China Town Parking',
   })
   @IsOptional()
   @IsString()

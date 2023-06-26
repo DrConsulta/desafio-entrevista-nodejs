@@ -4,7 +4,7 @@ import { ApiProperty } from '@nestjs/swagger';
 export class CreateParkingLotDto {
   @ApiProperty({
     description: 'Name of Parking Lot',
-    default: 'Parking Lot #01',
+    default: 'China Town Parking',
   })
   @IsNotEmpty()
   @IsString()

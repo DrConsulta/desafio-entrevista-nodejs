@@ -11,28 +11,28 @@ export class ParkingLot {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ type: 'varchar' })
   name: string;
 
-  @Column()
+  @Column({ type: 'varchar' })
   document: string;
 
-  @Column()
+  @Column({ type: 'varchar' })
   address: string;
 
-  @Column()
+  @Column({ type: 'varchar' })
   phone: string;
 
-  @Column()
+  @Column({ name: 'motorcycle_capacity', type: 'integer' })
   motorcycleCapacity: number;
 
-  @Column()
+  @Column({ name: 'car_capacity', type: 'integer' })
   carCapacity: number;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ name: 'created_at' })
   createdAt!: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ name: 'updated_at' })
   updatedAt!: Date;
 
   constructor(parkingLot?: Partial<ParkingLot>) {

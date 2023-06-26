@@ -14,10 +14,10 @@ import { UserModule } from '@src/user/user.module';
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot(ormConfig),
     HealthCheckModule,
-    ParkingLotModule,
-    VehicleModule,
-    ParkingLotInOutModule,
     AuthModule,
+    VehicleModule,
+    ParkingLotModule,
+    ParkingLotInOutModule,
     UserModule,
   ],
 })

@@ -8,13 +8,19 @@ import {
   Delete,
   UseGuards,
 } from '@nestjs/common';
-import { ApiParam } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { VehicleRequestSwagger } from '@src/vehicle/swagger/vehicle.request.swagger';
+import { VehicleFindAllSwagger } from '@src/vehicle/swagger/vehicle.find-all.swagger';
+import { VehicleBadRequestSwagger } from '@src/vehicle/swagger/vehicle.bad-request.swagger';
+import { VehicleUnauthorizedSwagger } from '@src/vehicle/swagger/vehicle.unauthorized.swagger';
+import { VehicleNotFoundSwagger } from '@src/vehicle/swagger/vehicle.not-found.swagger';
 import { AuthGuard } from '@src/auth/auth.guard';
 import { VehicleService } from '@src/vehicle/vehicle.service';
 import { CreateVehicleDto } from '@src/vehicle/dto/create-vehicle.dto';
 import { UpdateVehicleDto } from '@src/vehicle/dto/update-vehicle.dto';
 
 @Controller('vehicle')
+@ApiTags('Vehicles')
 export class VehicleController {
   /**
    * Inject service dependency.
@@ -24,43 +30,24 @@ export class VehicleController {
   /**
    * Create a new vehicle.
    */
-  @ApiParam({
-    name: 'type',
-    required: true,
-    description: 'Vehicle type',
-    type: 'string',
-    example: 'Car',
+  @Post()
+  @ApiOperation({ summary: 'Create a new vehicle.' })
+  @ApiResponse({
+    status: 201,
+    description: 'Create a new vehicle.',
+    type: VehicleRequestSwagger,
   })
-  @ApiParam({
-    name: 'licensePlate',
-    required: true,
-    description: 'Vehicle licensed plate',
-    type: 'string',
-    example: 'AAA 0000',
+  @ApiResponse({
+    status: 400,
+    description: 'Create a new vehicle bad request.',
+    type: VehicleBadRequestSwagger,
   })
-  @ApiParam({
-    name: 'collor',
-    required: true,
-    description: 'Vehicle collor',
-    type: 'string',
-    example: 'Black',
-  })
-  @ApiParam({
-    name: 'model',
-    required: true,
-    description: 'Vehicle model',
-    type: 'string',
-    example: 'Civic',
-  })
-  @ApiParam({
-    name: 'brand',
-    required: true,
-    description: 'Vehicle brand',
-    type: 'string',
-    example: 'Honda',
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized for create a new vehicle.',
+    type: VehicleUnauthorizedSwagger,
   })
   @UseGuards(AuthGuard)
-  @Post()
   create(@Body() createVehicleDto: CreateVehicleDto) {
     return this.vehicleService.create(createVehicleDto);
   }
@@ -68,8 +55,20 @@ export class VehicleController {
   /**
    * Find all vehicles.
    */
-  @UseGuards(AuthGuard)
   @Get()
+  @ApiOperation({ summary: 'Find all vehicles.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Find all vehicles.',
+    type: VehicleFindAllSwagger,
+    isArray: true,
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized for find all vehicles.',
+    type: VehicleUnauthorizedSwagger,
+  })
+  @UseGuards(AuthGuard)
   findAll() {
     return this.vehicleService.findAll();
   }
@@ -77,15 +76,25 @@ export class VehicleController {
   /**
    * Find one vehicle.
    */
-  @ApiParam({
-    name: 'id',
-    required: true,
-    description: 'Identification of Vehicle to be finded',
-    type: 'integer',
-    example: 1,
+  @Get(':id')
+  @ApiOperation({ summary: 'Find one vehicle.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Find one vehicle.',
+    type: VehicleRequestSwagger,
+    isArray: true,
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized for find one vehicles.',
+    type: VehicleUnauthorizedSwagger,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Not found any vehicle with passed ID.',
+    type: VehicleNotFoundSwagger,
   })
   @UseGuards(AuthGuard)
-  @Get(':id')
   findOne(@Param('id') id: number) {
     return this.vehicleService.findOne(id);
   }
@@ -93,50 +102,29 @@ export class VehicleController {
   /**
    * Update one vehicle.
    */
-  @ApiParam({
-    name: 'id',
-    required: true,
-    description: 'Identification of Vehicle to be updated',
-    type: 'integer',
-    example: 1,
+  @Patch(':id')
+  @ApiOperation({ summary: 'Update one vehicle.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Update one vehicle.',
+    type: VehicleRequestSwagger,
   })
-  @ApiParam({
-    name: 'type',
-    required: true,
-    description: 'Vehicle type',
-    type: 'string',
-    example: 'Car',
+  @ApiResponse({
+    status: 400,
+    description: 'Update one vehicle bad request.',
+    type: VehicleBadRequestSwagger,
   })
-  @ApiParam({
-    name: 'licensePlate',
-    required: true,
-    description: 'Vehicle licensed plate',
-    type: 'string',
-    example: 'AAA 0000',
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized for update one vehicle.',
+    type: VehicleUnauthorizedSwagger,
   })
-  @ApiParam({
-    name: 'collor',
-    required: true,
-    description: 'Vehicle collor',
-    type: 'string',
-    example: 'Black',
-  })
-  @ApiParam({
-    name: 'model',
-    required: true,
-    description: 'Vehicle model',
-    type: 'string',
-    example: 'Civic',
-  })
-  @ApiParam({
-    name: 'brand',
-    required: true,
-    description: 'Vehicle brand',
-    type: 'string',
-    example: 'Honda',
+  @ApiResponse({
+    status: 404,
+    description: 'Not found any vehicle with passed ID.',
+    type: VehicleNotFoundSwagger,
   })
   @UseGuards(AuthGuard)
-  @Patch(':id')
   update(@Param('id') id: number, @Body() updateVehicleDto: UpdateVehicleDto) {
     return this.vehicleService.update(id, updateVehicleDto);
   }
@@ -144,15 +132,19 @@ export class VehicleController {
   /**
    * Delete one vehicle.
    */
-  @ApiParam({
-    name: 'id',
-    required: true,
-    description: 'Identification of Vehicle to be deleted',
-    type: 'integer',
-    example: 1,
+  @Delete(':id')
+  @ApiOperation({ summary: 'Delete one vehicle.' })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized for delete one vehicle.',
+    type: VehicleUnauthorizedSwagger,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Not found any vehicle with passed ID.',
+    type: VehicleNotFoundSwagger,
   })
   @UseGuards(AuthGuard)
-  @Delete(':id')
   remove(@Param('id') id: number) {
     return this.vehicleService.remove(id);
   }

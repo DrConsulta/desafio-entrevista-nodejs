@@ -11,22 +11,22 @@ export class ParkingLotInOut {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ name: 'parking_lot_id', type: 'integer' })
   parkingLotId!: number;
 
-  @Column()
+  @Column({ name: 'vehicle_id', type: 'integer' })
   vehicleId!: number;
 
-  @Column()
+  @Column({ name: 'vehicle_in', type: 'varchar' })
   vehicleIn!: string;
 
-  @Column()
+  @Column({ name: 'vehicle_out', type: 'varchar', nullable: true })
   vehicleOut?: string;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ name: 'created_at' })
   createdAt!: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ name: 'updated_at' })
   updatedAt!: Date;
 
   constructor(parkingLotInOut?: Partial<ParkingLotInOut>) {

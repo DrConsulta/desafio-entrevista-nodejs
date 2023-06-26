@@ -5,31 +5,45 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { ApiProperty } from '@nestjs/swagger';
+
+export enum vehicleType {
+  MOTORCYCLE = 'Motorcycle',
+  CAR = 'Car',
+}
 
 @Entity()
 export class Vehicle {
   @PrimaryGeneratedColumn()
+  @ApiProperty()
   id: number;
 
-  @Column()
+  @Column({ type: 'varchar' })
+  @ApiProperty()
   brand: string;
 
-  @Column()
+  @Column({ type: 'varchar' })
+  @ApiProperty()
   model: string;
 
-  @Column()
+  @Column({ type: 'varchar' })
+  @ApiProperty()
   collor: string;
 
-  @Column()
+  @Column({ type: 'varchar' })
+  @ApiProperty()
   licensePlate: string;
 
-  @Column()
+  @Column({ type: 'enum', enum: vehicleType })
+  @ApiProperty()
   type: string;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ name: 'created_at' })
+  @ApiProperty()
   createdAt!: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ name: 'updated_at' })
+  @ApiProperty()
   updatedAt!: Date;
 
   constructor(vehicle?: Partial<Vehicle>) {
