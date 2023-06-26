@@ -2,26 +2,33 @@
 
 REST API to manage vehicles, parking lots and entrance and exit of vehicles.
 
+
+<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
+
 - Content
-    -[Stack](#stack)
-    -[Installation](#installation)
-    -[Running](#running)
-    -[Endpoints](#endpoints)
-        -[Healt Check](#health-check)
-        -[Authentication](#authentication)
-        -[Vehicles](#vehicles)
-        -[Parking Lots](#parking-lot)
-        -[Parking Lots In Out](#parking-lot-in-out)
-    -[Tests](#tests)
+    - [Installation](#installation)
+    - [Running](#running)
+    - [Endpoints](#endpoints)
+        - [Healt Check](#health-check)
+        - [Authentication](#authentication)
+        - [Vehicles](#vehicles)
+        - [Parking Lots](#parking-lot)
+        - [Parking Lots In Out](#parking-lot-in-out)
+    - [Tests](#tests)
 
+<!-- /TOC -->
+
+<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 ## Stack <a name="stack"></a>
+- Used in this project:
+  - [NestJS](https://github.com/nestjs/nest)
+  - [TypeScript](https://github.com/nestjs/nest)
+  - [TypeORM](https://typeorm.io/)
+  - [MySQL](https://www.mysql.com/)
+  - [Jest](https://jestjs.io/)
+  - [Swagger](https://swagger.io/)
 
-* [NestJS](https://github.com/nestjs/nest)
-* [TypeScript](https://github.com/nestjs/nest)
-* [TypeORM](https://typeorm.io/)
-* [MySQL](https://www.mysql.com/)
-* [Jest](https://jestjs.io/)
-* [Swagger](https://swagger.io/)
+<!-- /TOC -->
 
 ## Installation <a name="installation"></a>
 
