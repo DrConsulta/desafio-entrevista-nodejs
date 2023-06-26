@@ -1,8 +1,20 @@
-## API TEST
+## API TEST (desafio-entrevista-nodejs)
 
-REST API
+REST API to manage vehicles, parking lots and entrance and exit of vehicles.
 
-## Stack
+- Content
+    -[Stack](#stack)
+    -[Installation](#installation)
+    -[Running](#running)
+    -[Endpoints](#endpoints)
+        -[Healt Check](#health-check)
+        -[Authentication](#authentication)
+        -[Vehicles](#vehicles)
+        -[Parking Lots](#parking-lot)
+        -[Parking Lots In Out](#parking-lot-in-out)
+    -[Tests](#tests)
+
+## Stack <a name="stack"></a>
 
 * [NestJS](https://github.com/nestjs/nest)
 * [TypeScript](https://github.com/nestjs/nest)
@@ -11,7 +23,7 @@ REST API
 * [Jest](https://jestjs.io/)
 * [Swagger](https://swagger.io/)
 
-## Installation
+## Installation <a name="installation"></a>
 
 Clone repository
 
@@ -23,7 +35,21 @@ $ git clone git@github.com:tcsoares1914/desafio-entrevista-nodejs.git
 $ git clone https://github.com/tcsoares1914/desafio-entrevista-nodejs.git
 ```
 
-## Running
+Access repository directory.
+
+```bash
+# Copy .env.example as .env.
+$ cd desafio-entrevista-nodejs/
+```
+
+Make a copy of .env for project.
+
+```bash
+# Copy .env.example as .env.
+$ cp .env.example .env
+```
+
+## Running <a name="running"></a>
 
 Make shure you have [Docker](https://docs.docker.com/engine/install/) and [Docker Compose](https://docs.docker.com/compose/install/) installed.
 
@@ -40,10 +66,11 @@ $ docker exec -it api bash
 $ yarn install
 ```
 
-## Endpoints
+## Endpoints <a name="endpoints"></a>
 
 For complete details of endpoints, params and requires please check [API Documentation](http://localhost:3000/swagger).
 
+### Health Check <a name="health-check"></a>
 
 * For check API healty.
 
@@ -52,8 +79,11 @@ For complete details of endpoints, params and requires please check [API Documen
 # Method: GET /
 $ curl http://localhost:3000/
 
+# Response: 200
 {"healthy":true,"name":"Parking Lot API","version":"0.0.1"}
 ```
+
+### Authentication <a name="authentication"></a>
 
 * Authenticate user for generate access token.
 
@@ -61,6 +91,7 @@ $ curl http://localhost:3000/
 # Method: POST /auth/login
 $ curl -X POST http://localhost:3000/auth/login -d '{"email": "admin@parkinglot.com", "password": "password"}' -H "Content-Type: application/json"
 
+# Response: 200
 {"access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiYWRtaW5AcGFya2luZ2xvdC5jb20iLCJpYXQiOjE2ODc3NjEzOTl9.my4MLXefPrCHYhkjGEtIcpcyKzbgKoEEk3UJ9vu5_UM"}
 ```
 
@@ -73,6 +104,8 @@ $ curl http://localhost:3000/auth/profile -H "Authorization: Bearer eyJhbGciOiJI
 # Response: 200
 {"sub":1,"email":"admin@parkinglot.com","iat":1687761399}
 ```
+
+### Vehicles. <a name="vehicles"></a>
 
 * Create a new vehicle.
 
@@ -124,6 +157,8 @@ $ curl -X DELETE http://localhost:3000/vehicle/1 -H "Content-Type: application/j
 true
 ```
 
+### Parking Lot <a name="parking-lot"></a>
+
 * Create a new parking lot.
 
 ```bash
@@ -173,6 +208,8 @@ $ curl -X DELETE http://localhost:3000/parking-lot/1 -H "Content-Type: applicati
 # Response: 200
 true
 ```
+
+### Parking Lot entrances and exits <a name="parking-lot-in-out"></a>
 
 * Create a new parking lot vehicle entrance/exit.
 
@@ -224,7 +261,7 @@ $ curl -X DELETE http://localhost:3000/parking-lot-in-out/1 -H "Content-Type: ap
 true
 ```
 
-## Test
+## Test <a name="tests"></a>
 
 ```bash
 # Run unit tests.
