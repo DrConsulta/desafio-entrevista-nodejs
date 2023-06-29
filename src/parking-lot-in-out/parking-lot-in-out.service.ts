@@ -72,8 +72,12 @@ export class ParkingLotInOutService {
     await this.parkingLotInOutRepository.update(parkingLotEntrance, {
       ...input,
     });
-    const updatedParkingLotEntrance = this.parkingLotInOutRepository.create({
+    const updatedParkingLotObject = this.parkingLotInOutRepository.create({
       ...parkingLotEntrance,
+      ...input,
+    });
+    const updatedParkingLotEntrance = this.parkingLotInOutRepository.save({
+      ...updatedParkingLotObject,
       ...input,
     });
 
