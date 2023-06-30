@@ -63,8 +63,12 @@ export class ParkingLotService {
   async update(id: number, input: UpdateParkingLotDto): Promise<ParkingLot> {
     const parkingLot = await this.findOne(id);
     await this.parkingLotRepository.update(parkingLot, { ...input });
-    const updatedParkingLot = this.parkingLotRepository.create({
+    const updatedParkingLotObject = this.parkingLotRepository.create({
       ...parkingLot,
+      ...input,
+    });
+    const updatedParkingLot = this.parkingLotRepository.save({
+      ...updatedParkingLotObject,
       ...input,
     });
 

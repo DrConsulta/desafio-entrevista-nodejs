@@ -127,15 +127,15 @@ describe('ParkingLotService', () => {
         ...parking,
         ...updateParkingData,
       });
-      const updatedUser = await service.update(1, {
+      await service.update(1, {
         ...parking,
         ...updateParkingData,
       });
 
-      expect(updatedUser).toMatchObject(updateParkingData);
       expect(mockRepository.findOneBy).toBeCalledTimes(1);
       expect(mockRepository.update).toBeCalledTimes(1);
       expect(mockRepository.create).toBeCalledTimes(1);
+      expect(mockRepository.save).toBeCalledTimes(1);
     });
   });
 

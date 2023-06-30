@@ -62,8 +62,12 @@ export class VehicleService {
   async update(id: number, input: UpdateVehicleDto): Promise<Vehicle> {
     const vehicle = await this.findOne(id);
     await this.vehicleRepository.update(vehicle, { ...input });
-    const updatedVehicle = this.vehicleRepository.create({
+    const updatedVehicleObject = this.vehicleRepository.create({
       ...vehicle,
+      ...input,
+    });
+    const updatedVehicle = this.vehicleRepository.save({
+      ...updatedVehicleObject,
       ...input,
     });
 
