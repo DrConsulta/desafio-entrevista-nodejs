@@ -1,0 +1,19 @@
+### Variables
+@baseUrl = http://localhost:3000/
+
+### /
+GET  {{baseUrl}} HTTP/1.1
+
+### nota
+GET  {{baseUrl}}nota HTTP/1.1
+
+###
+POST {{baseUrl}}nota HTTP/1.1
+Content-Type: application/json
+
+{
+  "teste": "teste 01"
+}
+
+### /emailPop
+GET {{baseUrl}}email HTTP/1.1
