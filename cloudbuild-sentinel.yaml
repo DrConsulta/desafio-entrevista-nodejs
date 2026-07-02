@@ -1,0 +1,181 @@
+# Cloud Build native pipeline for SentinelOne CNAPP / S1 CNS audit.
+#
+# Trigger recomendado neste projeto:
+# - Evento: Push em branch do GitHub
+# - Branch regex: ^(master|main|develop|homolog|release)$
+#
+# Modo atual:
+# - Auditoria (_S1_AUDIT_MODE=true)
+# - Nao bloqueia compilacao por achados do SentinelOne
+# - Futuro: trocar _S1_AUDIT_MODE=false para bloquear quando a politica estiver pronta
+
+timeout: 1800s
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+
+substitutions:
+  _S1_AUDIT_MODE: "true"
+  _S1_MANAGEMENT_CONSOLE_URL: "https://usea1-016.sentinelone.net"
+  _S1_SCOPE_TYPE: "ACCOUNT"
+  _S1_SCOPE_ID: "1513300545506120465"
+  _S1_POLICY_ID: "01KV397GTT73X0PZAR2YJRBXVQ"
+  _S1_SERVICE_USER_API_TOKEN_SECRET: "s1-service-user-api-token"
+  _GITHUB_ORG: "DrConsulta"
+
+steps:
+  - id: "1.0 - Prepare Git References"
+    name: "gcr.io/cloud-builders/git"
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        set -u
+
+        echo "Repository: ${_GITHUB_ORG}/${REPO_NAME}"
+        echo "Branch: ${BRANCH_NAME}"
+        echo "Commit SHA: ${COMMIT_SHA}"
+
+        git config --global --add safe.directory /workspace
+
+        mkdir -p /workspace/.s1-results
+
+  - id: "2.0 - Secret Leak Detection"
+    name: "pingsafe/s1-shift-left-cli:1.0.1"
+    entrypoint: "bash"
+    secretEnv:
+      - "S1_SERVICE_USER_API_TOKEN"
+    args:
+      - "-c"
+      - |
+        set +e
+
+        s1-cns-cli config \
+          --service-user-api-token "$$S1_SERVICE_USER_API_TOKEN" \
+          --management-console-url "${_S1_MANAGEMENT_CONSOLE_URL}" \
+          --scope-type "${_S1_SCOPE_TYPE}" \
+          --scope-id "${_S1_SCOPE_ID}" \
+          --policy-id "${_S1_POLICY_ID}" \
+
+        SRC_REF="HEAD"
+        DEST_REF="HEAD~1"
+
+        if [[ -z "$$SRC_REF" ]] || ! git rev-parse --verify "$$SRC_REF" >/dev/null 2>&1; then
+          SRC_REF="HEAD"
+        fi
+
+        if ! git rev-parse --verify "$$DEST_REF" >/dev/null 2>&1; then
+          DEST_REF="HEAD"
+        fi
+
+        echo "Running SentinelOne secret scan: source=$$SRC_REF destination=$$DEST_REF"
+
+        s1-cns-cli scan secret \
+          -d /workspace \
+          --pull-request "$$SRC_REF" "$$DEST_REF" \
+          --publish-result \
+          --repo-full-name "${_GITHUB_ORG}/${REPO_NAME}" \
+          --repo-url "https://github.com/${_GITHUB_ORG}/${REPO_NAME}" \
+          --provider GITHUB
+
+        status=$$?
+        echo "$$status" > /workspace/.s1-results/secret.status
+        exit 0
+
+  - id: "3.0 - Infrastructure & Container Audit (IaC)"
+    name: "pingsafe/s1-shift-left-cli:1.0.1"
+    entrypoint: "bash"
+    secretEnv:
+      - "S1_SERVICE_USER_API_TOKEN"
+    args:
+      - "-c"
+      - |
+        set +e
+
+        s1-cns-cli config \
+          --service-user-api-token "$$S1_SERVICE_USER_API_TOKEN" \
+          --management-console-url "${_S1_MANAGEMENT_CONSOLE_URL}" \
+          --scope-type "${_S1_SCOPE_TYPE}" \
+          --scope-id "${_S1_SCOPE_ID}" \
+          --policy-id "${_S1_POLICY_ID}" \
+
+        BRANCH="${BRANCH_NAME}"
+        if [[ -z "$$BRANCH" ]]; then
+          BRANCH="unknown"
+        fi
+
+        echo "Running SentinelOne IaC scan: branch=$$BRANCH"
+
+        s1-cns-cli scan iac \
+          -d /workspace \
+          --publish-result \
+          --repo-full-name "${_GITHUB_ORG}/${REPO_NAME}" \
+          --repo-url "https://github.com/${_GITHUB_ORG}/${REPO_NAME}" \
+          --branch "$$BRANCH" \
+          --provider GITHUB
+
+        status=$$?
+        echo "$$status" > /workspace/.s1-results/iac.status
+        exit 0
+
+  - id: "4.0 - Software Composition Analysis (SCA)"
+    name: "pingsafe/s1-shift-left-cli:1.0.1"
+    entrypoint: "bash"
+    secretEnv:
+      - "S1_SERVICE_USER_API_TOKEN"
+    args:
+      - "-c"
+      - |
+        set +e
+
+        s1-cns-cli config \
+          --service-user-api-token "$$S1_SERVICE_USER_API_TOKEN" \
+          --management-console-url "${_S1_MANAGEMENT_CONSOLE_URL}" \
+          --scope-type "${_S1_SCOPE_TYPE}" \
+          --scope-id "${_S1_SCOPE_ID}" \
+          --policy-id "${_S1_POLICY_ID}" \
+
+        echo "Running SentinelOne SCA scan"
+        s1-cns-cli scan vuln -d /workspace
+
+        status=$$?
+        echo "$$status" > /workspace/.s1-results/sca.status
+        exit 0
+
+  - id: "5.0 - Audit Summary"
+    name: "ubuntu:22.04"
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        set -euo pipefail
+
+        secret_status="$$(cat /workspace/.s1-results/secret.status 2>/dev/null || echo 99)"
+        iac_status="$$(cat /workspace/.s1-results/iac.status 2>/dev/null || echo 99)"
+        sca_status="$$(cat /workspace/.s1-results/sca.status 2>/dev/null || echo 99)"
+
+        echo "SentinelOne Security Audit Report"
+        echo "Repository: ${_GITHUB_ORG}/${REPO_NAME}"
+        echo "Branch: ${BRANCH_NAME}"
+        echo "Secret Scan exit code: $$secret_status"
+        echo "IaC Scan exit code: $$iac_status"
+        echo "SCA Scan exit code: $$sca_status"
+        echo "Audit mode: ${_S1_AUDIT_MODE}"
+
+        if [[ "${_S1_AUDIT_MODE}" == "true" ]]; then
+          echo "Audit mode enabled. Build will not be blocked by SentinelOne scan exit codes."
+          exit 0
+        fi
+
+        if [[ "$$secret_status" != "0" || "$$iac_status" != "0" || "$$sca_status" != "0" ]]; then
+          echo "Blocking mode enabled and at least one SentinelOne scan failed."
+          exit 1
+        fi
+
+        echo "Blocking mode enabled and all SentinelOne scans passed."
+
+availableSecrets:
+  secretManager:
+    - versionName: "projects/$PROJECT_ID/secrets/${_S1_SERVICE_USER_API_TOKEN_SECRET}/versions/latest"
+      env: "S1_SERVICE_USER_API_TOKEN"
+      
